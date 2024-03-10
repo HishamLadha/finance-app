@@ -1,8 +1,18 @@
 import TotalBalance from "@/components/ui/Cards/totalBalance";
 import TotalSavings from "@/components/ui/Cards/totalSavings";
 import MonthlySpend from "@/components/ui/Cards/monthlySpend";
+import { redirect } from "next/navigation";
 
-export default function Dashboard() {
+import { createClient } from "@/lib/supabase/server";
+
+export default async function Dashboard() {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data?.user) {
+    redirect("/login");
+  }
+
   return (
     <div>
       <div className="m-6 ml-12">

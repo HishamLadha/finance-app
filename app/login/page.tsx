@@ -4,15 +4,22 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-
-import { useRouter } from "next/navigation";
+import { login } from "./login";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter();
+  const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  async function handleLogin() {}
+  async function handleLogin(event: any) {
+    event.preventDefault();
+    setIsLoading(true);
+    setIsError(await login(email, password));
+    setIsLoading(false);
+  }
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -27,7 +34,19 @@ export default function Login() {
               </Link>
             </p>
           </div>
-          <div className="w-full max-w-[400px] space-y-4">
+          {isError && (
+            <div className="w-[400px] text-left">
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>Error</AlertTitle>
+                <AlertDescription>Invalid login credentials.</AlertDescription>
+              </Alert>
+            </div>
+          )}
+          <form
+            className="w-full max-w-[400px] space-y-4"
+            onSubmit={handleLogin}
+          >
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -47,10 +66,10 @@ export default function Login() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <Button onClick={handleLogin} className="w-full">
-              Login
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? "Logging in..." : "Login"}
             </Button>
-          </div>
+          </form>
         </div>
       </div>
     </div>
