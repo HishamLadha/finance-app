@@ -17,10 +17,14 @@ export async function updateSession(request: NextRequest) {
           return request.cookies.get(name)?.value;
         },
         set(name: string, value: string, options: CookieOptions) {
+          const cookieOptionsWithExpiration = {
+            ...options,
+            maxAge: 3600, // 3600 seconds = 1 hour
+          };
           request.cookies.set({
             name,
             value,
-            ...options,
+            ...cookieOptionsWithExpiration,
           });
           response = NextResponse.next({
             request: {
@@ -30,7 +34,7 @@ export async function updateSession(request: NextRequest) {
           response.cookies.set({
             name,
             value,
-            ...options,
+            ...cookieOptionsWithExpiration,
           });
         },
         remove(name: string, options: CookieOptions) {
