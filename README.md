@@ -1,3 +1,12 @@
+## To be worked on:
+
+- [] Add email verification upon sign up
+- [] Work on responsiveness for different screen sizes
+- [] Add a feature to allow users to change their password
+- [] Modify component names to be Pascal case instead of camelCase
+- [] Work on the edit account feature (current not functional)
+- [] Potentially make the switch to a self hosted instance of Supabase
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

@@ -22,9 +22,9 @@ import {
 } from "@/components/ui/select";
 import { AddBankAccount } from "@/app/accounts/addBankAccount";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, Cog } from "lucide-react";
 
-const AddAccountButton = () => {
+const EditAccountButton = () => {
   const [bank, setBank] = useState("nothing");
   const [chequing, setChequing] = useState(0);
   const [savings, setSavings] = useState(0);
@@ -43,7 +43,13 @@ const AddAccountButton = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Add an Account</Button>
+        <Button
+          className="bg-transparent hover:bg-transparent"
+          size="icon"
+          disabled
+        >
+          <Cog />
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -168,4 +174,4 @@ const AddAccountButton = () => {
   );
 };
 
-export default AddAccountButton;
+export default EditAccountButton;

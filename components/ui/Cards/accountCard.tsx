@@ -1,4 +1,5 @@
 import React from "react";
+import EditAccountButton from "../editAccountButton";
 
 const accountCard = ({ bank_name, total_chequing, total_savings }: any) => {
   return (
@@ -11,7 +12,7 @@ const accountCard = ({ bank_name, total_chequing, total_savings }: any) => {
 
         <div className="w-full px-8 absolute top-8">
           <div className="flex justify-between">
-            <div className="">
+            <div>
               <p className="font-light">Bank:</p>
               <p className="font-medium tracking-tight">
                 {(bank_name as string).toUpperCase()}
@@ -25,14 +26,28 @@ const accountCard = ({ bank_name, total_chequing, total_savings }: any) => {
           <div className="pt-1">
             <p className="font-light">Total Chequing Balance:</p>
             <p className="font-medium tracking-more-wider">
-              ${(total_chequing as Number).toFixed(2)}
+              $
+              {new Intl.NumberFormat("en-US", {
+                style: "decimal",
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              }).format(total_chequing)}
             </p>
           </div>
           <div className="pt-1">
             <p className="font-light">Total Savings Balance:</p>
             <p className="font-medium tracking-more-wider">
-              ${(total_savings as Number).toFixed(2)}
+              $
+              {new Intl.NumberFormat("en-US", {
+                style: "decimal",
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              }).format(total_savings)}
             </p>
+          </div>
+          <div className="absolute bottom-[-20px] right-7">
+            {/* The following functionality does not work yet. To be worked on later..... */}
+            <EditAccountButton />
           </div>
         </div>
       </div>

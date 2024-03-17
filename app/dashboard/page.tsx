@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
 import { Button } from "@/components/ui/button";
+import totalBalance from "@/components/ui/Cards/totalBalance";
 
 export default async function Dashboard() {
   const supabase = createClient();
@@ -24,6 +25,20 @@ export default async function Dashboard() {
 
   // test();
 
+  const { data: account, error: accountError } = await supabase
+    .from("accounts")
+    .select();
+
+  let totalBalance = 0;
+  let totalSavings = 0;
+
+  if (!accountError && account != null && account.length > 0) {
+    totalBalance = account[0].total_balance;
+    totalSavings = account[0].total_savings;
+  } else {
+    redirect("/accounts");
+  }
+
   return (
     <div className="m-6 ml-12 h-screen">
       <div className="flex flex-row justify-between items-center">
@@ -33,8 +48,8 @@ export default async function Dashboard() {
         </h1>
       </div>
       <div className="grid grid-cols-3 gap-6">
-        <TotalBalance />
-        <TotalSavings />
+        <TotalBalance totalBalance={totalBalance} />
+        <TotalSavings totalSavings={totalSavings} />
         <MonthlySpend />
       </div>
       <div className="grid grid-cols-8 gap-6 mt-6">
