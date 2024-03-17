@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import BankSelect from "./bankSelect";
 import {
   Select,
   SelectContent,
@@ -21,18 +20,24 @@ import {
   SelectValue,
   SelectGroup,
 } from "@/components/ui/select";
+import { addAccount } from "@/app/accounts/addAccount";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 
-const addAccountButton = () => {
-  const [bank, setBank] = useState("");
+const AddAccountButton = () => {
+  const [bank, setBank] = useState("nothing");
   const [chequing, setChequing] = useState(0);
   const [savings, setSavings] = useState(0);
+  const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleSubmit(event: any) {
     event.preventDefault();
-    // await supabase.set(...){ name: formData.get("total_chequing")}......
-    console.log(bank);
-    console.log(chequing);
-    console.log(savings);
+    setIsLoading(true);
+    // // add a delay of 1 second to simulate the loading stateeee
+    // await new Promise((resolve) => setTimeout(resolve, 500));
+    setIsError(await addAccount(bank, chequing, savings));
+    setIsLoading(false);
   }
 
   return (
@@ -42,6 +47,15 @@ const addAccountButton = () => {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
+          {isError && (
+            <div className="w-[360px] text-left">
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>An error occured</AlertTitle>
+                <AlertDescription>Try again later.</AlertDescription>
+              </Alert>
+            </div>
+          )}
           <DialogTitle>Add an Account</DialogTitle>
           <DialogDescription>
             You can add a bank account down below.
@@ -54,112 +68,59 @@ const addAccountButton = () => {
                 Bank
               </Label>
               <div className="col-span-3">
-                <Select>
+                <Select onValueChange={setBank}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select a bank" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
                       {/* Large and Major Banks */}
-                      <SelectItem value="rbc" onClick={() => setBank("rbc")}>
+                      <SelectItem value="rbc">
                         Royal Bank of Canada (RBC)
                       </SelectItem>
-                      <SelectItem value="td" onClick={() => setBank("td")}>
+                      <SelectItem value="td">
                         Toronto-Dominion Bank (TD Bank)
                       </SelectItem>
-                      <SelectItem
-                        value="scotiabank"
-                        onClick={() => setBank("scotiabank")}
-                      >
+                      <SelectItem value="scotiabank">
                         Scotiabank (Bank of Nova Scotia)
                       </SelectItem>
-                      <SelectItem value="bmo" onClick={() => setBank("bmo")}>
+                      <SelectItem value="bmo">
                         Bank of Montreal (BMO)
                       </SelectItem>
-                      <SelectItem value="cibc" onClick={() => setBank("cibc")}>
+                      <SelectItem value="cibc">
                         Canadian Imperial Bank of Commerce (CIBC)
                       </SelectItem>
-                      <SelectItem value="nbc" onClick={() => setBank("nbc")}>
+                      <SelectItem value="nbc">
                         National Bank of Canada
                       </SelectItem>
                       {/* Online Banks */}
-                      <SelectItem
-                        value="tangerine"
-                        onClick={() => setBank("tangerine")}
-                      >
-                        Tangerine
-                      </SelectItem>
-                      <SelectItem
-                        value="simplii"
-                        onClick={() => setBank("simplii")}
-                      >
-                        Simplii Financial
-                      </SelectItem>
-                      <SelectItem
-                        value="eqbank"
-                        onClick={() => setBank("eqbank")}
-                      >
-                        EQ Bank
-                      </SelectItem>
+                      <SelectItem value="tangerine">Tangerine</SelectItem>
+                      <SelectItem value="simplii">Simplii Financial</SelectItem>
+                      <SelectItem value="eqbank">EQ Bank</SelectItem>
                       {/* Regional and Other Notable Banks */}
-                      <SelectItem value="atb" onClick={() => setBank("atb")}>
-                        ATB Financial
-                      </SelectItem>
-                      <SelectItem
-                        value="desjardins"
-                        onClick={() => setBank("desjardins")}
-                      >
+                      <SelectItem value="atb">ATB Financial</SelectItem>
+                      <SelectItem value="desjardins">
                         Desjardins Group
                       </SelectItem>
-                      <SelectItem
-                        value="laurentian"
-                        onClick={() => setBank("laurentian")}
-                      >
+                      <SelectItem value="laurentian">
                         Laurentian Bank of Canada
                       </SelectItem>
-                      <SelectItem value="hsbc" onClick={() => setBank("hsbc")}>
-                        HSBC Canada
-                      </SelectItem>
-                      <SelectItem
-                        value="manulife"
-                        onClick={() => setBank("manulife")}
-                      >
+                      <SelectItem value="hsbc">HSBC Canada</SelectItem>
+                      <SelectItem value="manulife">
                         Manulife Bank of Canada
                       </SelectItem>
-                      <SelectItem
-                        value="alterna"
-                        onClick={() => setBank("alterna")}
-                      >
+                      <SelectItem value="alterna">
                         Alterna Savings and Credit Union
                       </SelectItem>
-                      <SelectItem
-                        value="motusbank"
-                        onClick={() => setBank("motusbank")}
-                      >
-                        Motusbank
-                      </SelectItem>
-                      <SelectItem
-                        value="wealthone"
-                        onClick={() => setBank("wealthone")}
-                      >
+                      <SelectItem value="motusbank">Motusbank</SelectItem>
+                      <SelectItem value="wealthone">
                         WealthONE Bank of Canada
                       </SelectItem>
-                      <SelectItem
-                        value="bridgewater"
-                        onClick={() => setBank("bridgewater")}
-                      >
+                      <SelectItem value="bridgewater">
                         Bridgewater Bank
                       </SelectItem>
-                      <SelectItem
-                        value="homebank"
-                        onClick={() => setBank("homebank")}
-                      >
-                        Home Bank
-                      </SelectItem>
-                      <SelectItem
-                        value="streetcapital"
-                        onClick={() => setBank("streetcapital")}
-                      >
+                      <SelectItem value="homebank">Home Bank</SelectItem>
+                      <SelectItem value="streetcapital">
                         Street Capital Bank of Canada
                       </SelectItem>
                     </SelectGroup>
@@ -181,7 +142,7 @@ const addAccountButton = () => {
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="total_savings" className="text-right">
-                Chequing Balance
+                Savings Balance
               </Label>
               <Input
                 id="total_savings"
@@ -195,7 +156,9 @@ const addAccountButton = () => {
             <DialogFooter>
               {/* Can potentially add functionality with a state variable that hides the button below after submit has happened and shows another button to close the dialog box */}
               {/* <DialogClose asChild> */}
-              <Button type="submit">Submit</Button>
+              <Button type="submit" disabled={isLoading}>
+                {isLoading ? "Loading..." : "Submit"}
+              </Button>
               {/* </DialogClose> */}
             </DialogFooter>
           </div>
@@ -205,4 +168,4 @@ const addAccountButton = () => {
   );
 };
 
-export default addAccountButton;
+export default AddAccountButton;
