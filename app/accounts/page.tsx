@@ -2,24 +2,19 @@ import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
 import AccountCard from "@/components/ui/Cards/accountCard";
-
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import { Button } from "@/components/ui/button";
 import AddAccountButton from "@/components/ui/addAccountButton";
 
 export default async function Accounts() {
   const supabase = createClient();
 
-  const { data, error } = await supabase.auth.getUser();
-  if (error || !data?.user) {
+  const { data, error: authError } = await supabase.auth.getUser();
+  if (authError || !data?.user) {
     redirect("/login");
   }
+
+  const { data: bank, error: bankError } = await supabase
+    .from("bank")
+    .select("id, bank_name, total_chequing, total_savings");
 
   return (
     <div>
@@ -31,23 +26,25 @@ export default async function Accounts() {
           <AddAccountButton />
         </div>
 
-        <div className="flex items-center justify-center">
-          <Carousel>
-            <CarouselContent>
-              <CarouselItem>
-                <AccountCard />
-              </CarouselItem>
-              <CarouselItem>
-                <AccountCard />
-              </CarouselItem>
-              <CarouselItem>
-                <AccountCard />
-              </CarouselItem>
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
-        </div>
+        {0 === 0 ? (
+          <div className="flex justify-center pt-28">
+            <h2 className="text-4xl font-medium tracking-tight mb-6">
+              Click the button above to add an account ↗️
+            </h2>
+          </div>
+        ) : (
+          <div className={`grid grid-cols-${bank?.length} gap-4 pt-28`}>
+            {bank?.map((bank: any) => (
+              <div key={bank.id} className="col-span-1">
+                <AccountCard
+                  bank_name={bank.bank_name}
+                  total_chequing={bank.total_chequing}
+                  total_savings={bank.total_savings}
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
