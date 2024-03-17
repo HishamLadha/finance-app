@@ -26,7 +26,7 @@ export default async function Accounts() {
           <AddAccountButton />
         </div>
 
-        {0 === 0 ? (
+        {bank?.length === 0 ? (
           <div className="flex justify-center pt-28">
             <h2 className="text-4xl font-medium tracking-tight mb-6">
               Click the button above to add an account ↗️

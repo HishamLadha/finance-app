@@ -20,6 +20,22 @@ export async function login(email: string, password: string) {
   if (error) {
     return true;
   }
-  revalidatePath("/dashboard", "layout");
-  redirect("/dashboard");
+
+  // The following check below is to see if it is the first time a user is logging in.
+  // In other words, their bank account details have not been added yet.
+  const { data: bank, error: bankError } = await supabase
+    .from("bank")
+    .select("bank_name");
+
+  if (bankError) {
+    return true;
+  }
+
+  if (bank?.length === 0) {
+    revalidatePath("/accounts", "layout");
+    redirect("/accounts");
+  } else {
+    revalidatePath("/dashboard", "layout");
+    redirect("/dashboard");
+  }
 }
