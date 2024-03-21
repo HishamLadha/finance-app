@@ -16,8 +16,6 @@ export async function AddBankAccount(
 
   const userID = user?.id;
 
-  console.log(user?.aud);
-
   const currentTime = new Date().toISOString();
 
   // insert a bank account into banks table

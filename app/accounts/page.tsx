@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
 import AccountCard from "@/components/ui/Cards/accountCard";
-import AddAccountButton from "@/components/ui/addAccountButton";
+import AddAccountButton from "@/components/ui/Buttons/addAccountButton";
 
 export default async function Accounts() {
   const supabase = createClient();

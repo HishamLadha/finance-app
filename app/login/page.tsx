@@ -1,11 +1,15 @@
 "use client";
 import Link from "next/link";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/shared/label";
+import { Input } from "@/components/ui/shared/input";
+import { Button } from "@/components/ui/Buttons/button";
 import { useState } from "react";
 import { login } from "./login";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/shared/alert";
 import { AlertCircle } from "lucide-react";
 
 export default function Login() {

@@ -6,8 +6,7 @@ import TransactionsChart from "@/components/ui/Cards/transactionsChart";
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
-import { Button } from "@/components/ui/button";
-import totalBalance from "@/components/ui/Cards/totalBalance";
+import { Button } from "@/components/ui/Buttons/button";
 
 export default async function Dashboard() {
   const supabase = createClient();
@@ -17,24 +16,18 @@ export default async function Dashboard() {
     redirect("/login");
   }
 
-  // const test = async () => {
-  //   let { data: transactions, error } = await supabase
-  //     .from("transactions")
-  //     .select("*");
-  // };
-
-  // test();
-
   const { data: account, error: accountError } = await supabase
     .from("accounts")
     .select();
 
   let totalBalance = 0;
   let totalSavings = 0;
+  let monthlySpending = 0;
 
   if (!accountError && account != null && account.length > 0) {
     totalBalance = account[0].total_balance;
     totalSavings = account[0].total_savings;
+    monthlySpending = account[0].monthly_spending;
   } else {
     redirect("/accounts");
   }
@@ -50,7 +43,7 @@ export default async function Dashboard() {
       <div className="grid grid-cols-3 gap-6">
         <TotalBalance totalBalance={totalBalance} />
         <TotalSavings totalSavings={totalSavings} />
-        <MonthlySpend />
+        <MonthlySpend monthlySpending={monthlySpending} />
       </div>
       <div className="grid grid-cols-8 gap-6 mt-6">
         <div className="col-span-5 ">

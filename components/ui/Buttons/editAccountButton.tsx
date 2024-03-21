@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Buttons/button";
 import {
   Dialog,
   DialogContent,
@@ -9,9 +9,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from "@/components/ui/shared/dialog";
+import { Input } from "@/components/ui/shared/input";
+import { Label } from "@/components/ui/shared/label";
 import {
   Select,
   SelectContent,
@@ -19,9 +19,13 @@ import {
   SelectTrigger,
   SelectValue,
   SelectGroup,
-} from "@/components/ui/select";
+} from "@/components/ui/shared/select";
 import { AddBankAccount } from "@/app/accounts/addBankAccount";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/shared/alert";
 import { AlertCircle, Cog } from "lucide-react";
 
 const EditAccountButton = () => {

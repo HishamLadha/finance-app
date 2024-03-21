@@ -1,5 +1,9 @@
 "use client";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/shared/avatar";
 
 import { CreditCard, Keyboard, LogOut, Settings, User } from "lucide-react";
 import {
@@ -11,7 +15,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuGroup,
   DropdownMenuShortcut,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/ui/shared/dropdown-menu";
 
 import { createClient } from "@/lib/supabase/client";
 import { useCallback, useState } from "react";
@@ -22,11 +26,20 @@ export default function NavBar({ page }: any) {
   const [email, setEmail] = useState<string | null>(null);
 
   const getProfile = useCallback(async () => {
+    console.log("getting profile");
     const { data, error } = await supabase.auth.getUser();
+    console.log(data);
     if (data.user) {
       setEmail(data.user.email || null);
     }
   }, [supabase]);
+
+  // const getProfile = async () => {
+  //   const { data, error } = await supabase.auth.getUser();
+  //   if (data.user) {
+  //     setEmail(data.user.email || null);
+  //   }
+  // };
 
   return (
     <nav className="p-2 flex justify-between items-center">
@@ -89,7 +102,7 @@ export default function NavBar({ page }: any) {
             My Account
           </DropdownMenuLabel>
           <DropdownMenuLabel className="font-normal text-xs pt-0 pb-0.5 text-gray-500">
-            {email}
+            {email ? email : "Unable to retrieve information"}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>

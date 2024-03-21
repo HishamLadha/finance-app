@@ -1,5 +1,6 @@
 import React from "react";
-import EditAccountButton from "../editAccountButton";
+import EditAccountButton from "../Buttons/editAccountButton";
+import Image from "next/image";
 
 const accountCard = ({ bank_name, total_chequing, total_savings }: any) => {
   return (
@@ -18,9 +19,13 @@ const accountCard = ({ bank_name, total_chequing, total_savings }: any) => {
                 {(bank_name as string).toUpperCase()}
               </p>
             </div>
-            <img
+            <Image
               className="w-9 h-9 rounded-md"
               src={`https://logo.clearbit.com/${bank_name}.com`}
+              // The width and height get overriden by the width and height in the className above but adding them is a must due to the way next/image works
+              width={36}
+              height={36}
+              alt={`${bank_name} logo`}
             />
           </div>
           <div className="pt-1">

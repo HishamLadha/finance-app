@@ -1,5 +1,5 @@
 import NavBar from "@/components/NavBar";
-import { Separator } from "@/components/ui/separator";
+import { Separator } from "@/components/ui/shared/separator";
 
 export default function TransactionsLayout({ children }: any) {
   return (

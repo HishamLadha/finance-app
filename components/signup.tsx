@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/shared/label";
+import { Input } from "@/components/ui/shared/input";
+import { Button } from "@/components/ui/Buttons/button";
 
 export default function SignUp() {
   return (

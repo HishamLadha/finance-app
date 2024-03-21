@@ -6,7 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
   SelectGroup,
-} from "@/components/ui/select";
+} from "@/components/ui/shared/select";
 
 const bankSelect = () => {
   return (
