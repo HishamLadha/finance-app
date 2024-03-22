@@ -67,11 +67,28 @@ export async function AddTransaction(
         .eq("user_id", userID);
   }
 
+  // subtract this transaction amount from the user's total balance
+  const { data: usersTotalBalance, error: usersTotalBalanceError } =
+    await supabase
+      .from("accounts")
+      .select("total_balance")
+      .eq("user_id", userID);
+
+  if (usersTotalBalance?.length != 0 && usersTotalBalance != null) {
+    const { data: updateTotalBalance, error: updateTotalBalanceError } =
+      await supabase
+        .from("accounts")
+        .update({
+          total_balance: usersTotalBalance[0].total_balance - amount,
+        })
+        .eq("user_id", userID);
+  }
+
   revalidatePath("/dashboard");
   revalidatePath("/transactions");
 
   if (newTransactionError) {
-    return true;
+    return "error";
   }
-  return false;
+  return "success";
 }

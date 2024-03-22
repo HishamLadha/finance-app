@@ -1,7 +1,29 @@
+"use client";
+import { useState, useEffect } from "react";
 import AddTransactionButton from "../Buttons/addTransactionButton";
 import Transaction from "./transaction";
+import { getTransactions } from "@/app/transactions/getTransactions";
 
+interface Transaction {
+  amount: any;
+  store: any;
+  transaction_date: string; // Assuming the date is stored as a string
+}
 export default function RecentTransactions() {
+  const [usersLast5Transactions, setUsersLast5Transactions] = useState<
+    Transaction[]
+  >([]);
+
+  async function fetchTransactions() {
+    const transactions = await getTransactions();
+    if (transactions != null) {
+      setUsersLast5Transactions(transactions);
+    }
+  }
+  useEffect(() => {
+    fetchTransactions();
+  }, []);
+
   return (
     <div className="rounded-xl border bg-card text-card-foreground shadow">
       <div className="flex flex-row justify-between">
@@ -20,10 +42,16 @@ export default function RecentTransactions() {
       <div className="p-6 pt-0">
         <div className="space-y-8">
           {/* This div below is a transaction element */}
-          <Transaction storeName="Osmows" date="DD/MM/YYYY" amount="12.43" />
-          <Transaction storeName="Osmows" date="DD/MM/YYYY" amount="12.43" />
-          <Transaction storeName="Osmows" date="DD/MM/YYYY" amount="12.43" />
-          <Transaction storeName="Osmows" date="DD/MM/YYYY" amount="12.43" />
+          {usersLast5Transactions.map((transaction: Transaction, index) => {
+            return (
+              <Transaction
+                key={index}
+                storeName={transaction.store}
+                date={transaction.transaction_date}
+                amount={transaction.amount}
+              />
+            );
+          })}
         </div>
       </div>
     </div>

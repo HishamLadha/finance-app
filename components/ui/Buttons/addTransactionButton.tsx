@@ -16,7 +16,7 @@ import {
   AlertDescription,
   AlertTitle,
 } from "@/components/ui/shared/alert";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, Check } from "lucide-react";
 import { useState, useEffect } from "react";
 import { AddTransaction } from "@/app/transactions/addTransaction";
 
@@ -31,50 +31,48 @@ const addTransactionButton = () => {
   const [store, setStore] = useState("");
   const [amount, setAmount] = useState(0);
   const [category, setCategory] = useState("");
-  const [description, setDescription] = useState("");
-  const [date, setDate] = useState("");
-  const [isSubmitError, setIsSubmitError] = useState(false);
+  const [description, setDescription] = useState("None");
+  const [date, setDate] = useState("initial");
+  const [isSubmitError, setIsSubmitError] = useState("default");
   const [errors, setErrors] = useState<Errors>({});
   const [isLoading, setIsLoading] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
-  const [displayErrors, setDisplayErrors] = useState(false);
 
   useEffect(() => {
     validateForm();
   }, [store, amount, category, description, date]);
 
   const validateForm = () => {
+    setErrors({});
     let NewErrors: Errors = {};
     if (amount < 0) {
       NewErrors.amount = "Amount cannot be negative";
     }
-    if (
-      date.length !== 10 ||
-      date[2] !== "/" ||
-      date[5] !== "/" ||
-      isNaN(Date.parse(date))
-    ) {
-      NewErrors.format = "Date must be in the format DD/MM/YYYY";
+    if (isNaN(amount)) {
+      NewErrors.amountIsString = "Amount must be a number";
     }
-    if (
-      parseInt(date.slice(0, 2)) > 31 ||
-      parseInt(date.slice(3, 6)) > 12 ||
-      parseInt(date.slice(6)) < 1990
-    ) {
+    // Check if date is in the format DD/MM/YYYY if it is not the initial value
+    if (date != "initial") {
+      if (
+        date.length !== 10 ||
+        date[2] !== "/" ||
+        date[5] !== "/" ||
+        isNaN(parseInt(date.slice(0, 2))) ||
+        isNaN(parseInt(date.slice(3, 5))) ||
+        isNaN(parseInt(date.slice(6, 10)))
+      ) {
+        NewErrors.format = "Date must be in the format DD/MM/YYYY";
+      }
+    }
+    if (parseInt(date.slice(0, 2)) > 31 || parseInt(date.slice(3, 6)) > 12) {
       NewErrors.date = "Invalid date";
     }
     setErrors(NewErrors);
-    setIsFormValid(Object.keys(errors).length === 0);
-    if (Object.keys(errors).length > 1) {
-      setDisplayErrors(true);
-    } else {
-      setDisplayErrors(false);
-    }
+    setIsFormValid(Object.keys(NewErrors).length === 0);
   };
 
   async function handleSubmit(event: any) {
     event.preventDefault();
-    console.log("clicked submit");
     if (isFormValid) {
       setIsLoading(true);
       setIsSubmitError(
@@ -92,7 +90,7 @@ const addTransactionButton = () => {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          {displayErrors && (
+          {Object.keys(errors).length > 0 && (
             <div className="w-[360px] text-left">
               <Alert variant="destructive">
                 <AlertCircle className="h-4 w-4" />
@@ -100,6 +98,16 @@ const addTransactionButton = () => {
                 {Object.keys(errors).map((key) => (
                   <AlertDescription key={key}>- {errors[key]}</AlertDescription>
                 ))}
+              </Alert>
+            </div>
+          )}
+          {isSubmitError === "success" && (
+            <div className="w-[360px] text-left">
+              <Alert variant="default" className="text-sm border-green-500">
+                <Check color="#22C55E" className="h-4 w-4" />
+                <AlertTitle className="text-green-500">
+                  Transaction successfully added
+                </AlertTitle>
               </Alert>
             </div>
           )}
