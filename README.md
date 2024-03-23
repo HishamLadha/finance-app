@@ -1,11 +1,30 @@
 ## To be worked on:
 
-- [] Add email verification upon sign up
-- [] Work on responsiveness for different screen sizes
-- [] Add a feature to allow users to change their password
-- [] Modify component names to be Pascal case instead of camelCase
-- [] Work on the edit account feature (current not functional)
-- [] Potentially make the switch to a self hosted instance of Supabase
+### Pages
+
+#### Home/ Dashboard
+
+- [ ] Work on the monthly spending feature (needs to track only the spending over the last month. Each month, the spending should be reset to 0)
+
+#### Transactions
+
+- [ ] Transactions page - Should display all transactions in a table format with pagination.
+
+#### Accounts
+
+- [ ] Work on the feature where a user can transfer money between accounts
+- [ ] Work on the edit account feature (current not functional)
+
+#### Backlog/ Maintenance
+
+- [ ] Work on responsiveness for different screen sizes
+- [ ] Modify component names to be Pascal case instead of camelCase
+
+#### Future features
+
+- [ ] Add email verification upon sign up
+- [ ] Add a feature to allow users to change their password
+- [ ] Potentially make the switch to a self hosted instance of Supabase
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
