@@ -13,6 +13,7 @@ export async function getTransactions() {
     await supabase
       .from("transactions")
       .select("amount, store, transaction_date")
+      .order("transaction_date", { ascending: false })
       .range(0, 4);
 
   revalidatePath("/dashboard");

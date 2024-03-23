@@ -1,5 +1,20 @@
+"use client";
 import Image from "next/image";
+import { useState, useEffect } from "react";
+import { fetchCompanyLogo } from "@/lib/fetchLogo";
 export default function transaction({ storeName, date, amount }: any) {
+  const [logoUrl, setLogoUrl] = useState("");
+
+  useEffect(() => {
+    async function fetchAndSetUrl() {
+      const url = await fetchCompanyLogo(
+        storeName.replace(/\s+/g, "").toLowerCase()
+      );
+      setLogoUrl(url);
+    }
+    fetchAndSetUrl();
+  }, [storeName]);
+
   return (
     <div className="space-y-8">
       {/* This div below is a transaction element */}
@@ -9,7 +24,8 @@ export default function transaction({ storeName, date, amount }: any) {
           <Image
             className="aspect-square h-full w-full"
             alt=""
-            src={`https://logo.clearbit.com/${storeName}.com`}
+            // src={`https://logo.clearbit.com/${storeName}.ca`} // I would like to remove any spaces from the store name and convert it to lowercase
+            src={logoUrl}
             width={28}
             height={28}
           />

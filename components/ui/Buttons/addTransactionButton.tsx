@@ -79,6 +79,10 @@ const addTransactionButton = () => {
         await AddTransaction(store, amount, category, description, date)
       );
       setIsLoading(false);
+      // set a timeout to reset the isSubmitError state after 5 seconds
+      setTimeout(() => {
+        setIsSubmitError("default");
+      }, 5000);
     } else {
       console.log("Form is not valid");
     }
@@ -86,7 +90,7 @@ const addTransactionButton = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="secondary">Add Transaction</Button>
+        <Button>Add Transaction</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
