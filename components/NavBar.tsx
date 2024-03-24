@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/shared/dropdown-menu";
 
 import { createClient } from "@/lib/supabase/client";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function NavBar({ page }: any) {
   const supabase = createClient();
@@ -35,13 +35,6 @@ export default function NavBar({ page }: any) {
   useEffect(() => {
     getProfile();
   });
-
-  // const getProfile = async () => {
-  //   const { data, error } = await supabase.auth.getUser();
-  //   if (data.user) {
-  //     setEmail(data.user.email || null);
-  //   }
-  // };
 
   return (
     <nav className="p-2 flex justify-between items-center">
