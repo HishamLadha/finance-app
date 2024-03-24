@@ -5,13 +5,16 @@
 #### Home/ Dashboard
 
 - [ ] Work on the monthly spending feature (needs to track only the spending over the last month. Each month, the spending should be reset to 0)
+- The above can be done by scheduling a cron job using supabase edge functions. To watch: https://www.youtube.com/watch?v=-U6DJcjVvGo
+- [ ] Work on the Chart feature
 
 #### Transactions
 
-- [ ] Transactions page - Should display all transactions in a table format with pagination.
+- [x] Transactions page - Should display all transactions in a table format with pagination.
 
 #### Accounts
 
+- [ ] When a user makes a transaction, money is deducted from an account (maybe they choose an account to deduct from or they set a default account).
 - [ ] Work on the feature where a user can transfer money between accounts
 - [ ] Work on the edit account feature (current not functional)
 
@@ -22,8 +25,10 @@
 
 #### Future features
 
-- [ ] Add email verification upon sign up
-- [ ] Add a feature to allow users to change their password
+- [ ] Look into integrating plaid API
+- [x] Add email verification upon sign up
+- [ ] Need to add custom SMTP server as the current supabase limit is 3 emails/hour
+- [ ] Add a feature to allow users to reset their password
 - [ ] Potentially make the switch to a self hosted instance of Supabase
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).

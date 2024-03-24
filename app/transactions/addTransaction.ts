@@ -2,6 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
+import { fetchCompanyLogo } from "@/lib/fetchLogo";
 
 function parseDate(date: string) {
   // Splitting the input into parts
@@ -32,6 +33,8 @@ export async function AddTransaction(
 
   const transaction_date = parseDate(date);
 
+  const logoUrl = await fetchCompanyLogo(store);
+
   //   add the transaction to the transactions table
   const { data: newTransaction, error: newTransactionError } = await supabase
     .from("transactions")
@@ -43,6 +46,7 @@ export async function AddTransaction(
         description: description,
         category: category,
         amount: amount,
+        logo_url: logoUrl,
       },
     ]);
 

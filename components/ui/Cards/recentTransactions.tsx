@@ -9,6 +9,7 @@ interface Transaction {
   amount: any;
   store: any;
   transaction_date: string; // Assuming the date is stored as a string
+  logo_url?: string;
 }
 export default function RecentTransactions() {
   const [usersLast5Transactions, setUsersLast5Transactions] = useState<
@@ -64,6 +65,7 @@ export default function RecentTransactions() {
                 storeName={transaction.store}
                 date={transaction.transaction_date}
                 amount={transaction.amount}
+                logoUrl={transaction.logo_url}
               />
             );
           })}

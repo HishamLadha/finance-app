@@ -18,21 +18,23 @@ import {
 } from "@/components/ui/shared/dropdown-menu";
 
 import { createClient } from "@/lib/supabase/client";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export default function NavBar({ page }: any) {
   const supabase = createClient();
 
   const [email, setEmail] = useState<string | null>(null);
 
-  const getProfile = useCallback(async () => {
-    console.log("getting profile");
+  const getProfile = async () => {
     const { data, error } = await supabase.auth.getUser();
-    console.log(data);
     if (data.user) {
       setEmail(data.user.email || null);
     }
-  }, [supabase]);
+  };
+
+  useEffect(() => {
+    getProfile();
+  });
 
   // const getProfile = async () => {
   //   const { data, error } = await supabase.auth.getUser();

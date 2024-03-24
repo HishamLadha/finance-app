@@ -1,20 +1,14 @@
-"use client";
 import Image from "next/image";
-import { useState, useEffect } from "react";
-import { fetchCompanyLogo } from "@/lib/fetchLogo";
-export default function transaction({ storeName, date, amount }: any) {
-  const [logoUrl, setLogoUrl] = useState("");
-
-  useEffect(() => {
-    async function fetchAndSetUrl() {
-      const url = await fetchCompanyLogo(
-        storeName.replace(/\s+/g, "").toLowerCase()
-      );
-      setLogoUrl(url);
-    }
-    fetchAndSetUrl();
-  }, [storeName]);
-
+export default function transaction({ storeName, date, amount, logoUrl }: any) {
+  const dateObj = new Date(date);
+  const options: Intl.DateTimeFormatOptions = {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  };
+  const formattedDate = new Intl.DateTimeFormat("en-GB", options).format(
+    dateObj
+  );
   return (
     <div className="space-y-8">
       {/* This div below is a transaction element */}
@@ -32,7 +26,7 @@ export default function transaction({ storeName, date, amount }: any) {
         </span>
         <div className="ml-4 space-y-1">
           <p className="text-sm font-medium leading-none">{storeName}</p>
-          <p className="text-sm text-muted-foreground">{date}</p>
+          <p className="text-sm text-muted-foreground">{formattedDate}</p>
         </div>
         <div className="ml-auto font-medium">
           $

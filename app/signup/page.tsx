@@ -11,7 +11,7 @@ import {
   AlertDescription,
   AlertTitle,
 } from "@/components/ui/shared/alert";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, Mail } from "lucide-react";
 
 export default function SignUp() {
   const [firstName, setFirstName] = useState("");
@@ -41,7 +41,7 @@ export default function SignUp() {
               </Link>
             </p>
           </div>
-          {isError && (
+          {(isError === "general" || isError === "duplicate") && (
             <div className="w-[400px] text-left">
               <Alert variant="destructive">
                 <AlertCircle className="h-4 w-4" />
@@ -54,6 +54,20 @@ export default function SignUp() {
               </Alert>
             </div>
           )}
+          {isError === "email-sent" && (
+            <div className="w-[400px] text-left">
+              <Alert variant="default" className="border-orange-400">
+                <Mail className="h-4 w-4" color="#FB923C" />
+                <AlertTitle className="text-orange-400 font-bold">
+                  Please confirm your email
+                </AlertTitle>
+                <AlertDescription className="text-orange-400">
+                  We have sent you an email to confirm your account.
+                </AlertDescription>
+              </Alert>
+            </div>
+          )}
+
           <form
             className="w-full max-w-[400px] space-y-4"
             onSubmit={handleSignUp}
