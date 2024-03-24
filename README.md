@@ -7,10 +7,13 @@
 - [ ] Work on the monthly spending feature (needs to track only the spending over the last month. Each month, the spending should be reset to 0)
 - The above can be done by scheduling a cron job using supabase edge functions. To watch: https://www.youtube.com/watch?v=-U6DJcjVvGo
 - [ ] Work on the Chart feature
+- [ ] Potentially update schema to make it easier to query for the chart feature
 
 #### Transactions
 
 - [x] Transactions page - Should display all transactions in a table format with pagination.
+- [ ] Work on edit transaction feature (currently disabled)
+- [ ] Work on delete transaction feature (currently disabled)
 
 #### Accounts
 
